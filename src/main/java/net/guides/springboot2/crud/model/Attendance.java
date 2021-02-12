@@ -2,6 +2,7 @@ package net.guides.springboot2.crud.model;
 
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -11,17 +12,18 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "attendance")
-@Data
+@Data @NoArgsConstructor
 public class Attendance {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private @Id
     @Setter(AccessLevel.PROTECTED) long id;
+
     @ManyToOne
-    @Column(name = "meeting_id", nullable = false)
     private Meeting meeting;
+
     @ManyToOne
-    @Column(name = "employee_id", nullable = false)
     private Employee employee;
+
     @Column(name = "attendance", nullable = false)
     private boolean attendance;
     @UpdateTimestamp

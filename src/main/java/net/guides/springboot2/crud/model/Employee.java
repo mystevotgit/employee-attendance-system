@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "employees")
-@Data
+@Data @NoArgsConstructor
 public class Employee {
 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,11 +23,12 @@ public class Employee {
 	private String emailId;
 
 	@ManyToOne
-	@Column(name = "firm_id", nullable = false)
 	private User firm;
+
 	@UpdateTimestamp
 	@Column(name = "timestamp", nullable = false)
-	private @Setter(AccessLevel.PROTECTED) LocalDateTime timeStamp;
+	private @Setter(AccessLevel.PROTECTED)
+	LocalDateTime timeStamp;
 	@CreationTimestamp
 	@Column(name = "created", nullable = false)
 	private @Setter(AccessLevel.PROTECTED) LocalDateTime created;

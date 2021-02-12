@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "firms")
-@Data
+@Data @NoArgsConstructor
 public class User {
     private @Id
     @Setter(AccessLevel.PROTECTED) long id;
@@ -22,8 +22,11 @@ public class User {
     private String emailId;
 
     @UpdateTimestamp
-    private @Setter(AccessLevel.PROTECTED) LocalDateTime timeStamp;
+    @Column(name = "timestamp", nullable = false)
+    private @Setter(AccessLevel.PROTECTED)
+    LocalDateTime timeStamp;
     @CreationTimestamp
+    @Column(name = "created", nullable = false)
     private @Setter(AccessLevel.PROTECTED) LocalDateTime created;
 
     public User(String name, String emailId) {
