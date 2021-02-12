@@ -1,68 +1,41 @@
 package net.guides.springboot2.crud.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "employees")
+@Setter @Getter @NoArgsConstructor @ToString
 public class Employee {
 
-	private long id;
-	private String firstName;
-	private String lastName;
-	private String emailId;
-	
-	public Employee() {
-		
-	}
-	
-	public Employee(String firstName, String lastName, String emailId) {
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.emailId = emailId;
-	}
-	
-	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public long getId() {
-		return id;
-	}
-	public void setId(long id) {
-		this.id = id;
-	}
-	
+	private @Id @Setter(AccessLevel.PROTECTED) long id;
 	@Column(name = "first_name", nullable = false)
-	public String getFirstName() {
-		return firstName;
-	}
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-	
+	private String firstName;
 	@Column(name = "last_name", nullable = false)
-	public String getLastName() {
-		return lastName;
-	}
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-	
+	private String lastName;
 	@Column(name = "email_address", nullable = false)
-	public String getEmailId() {
-		return emailId;
-	}
-	public void setEmailId(String emailId) {
+	private String emailId;
+
+	@ManyToOne
+	@Column(name = "firm_id", nullable = false)
+	private User firm;
+	@UpdateTimestamp
+	@Column(name = "timestamp", nullable = false)
+	private @Setter(AccessLevel.PROTECTED) LocalDateTime timeStamp;
+	@CreationTimestamp
+	@Column(name = "created", nullable = false)
+	private @Setter(AccessLevel.PROTECTED) LocalDateTime created;
+	
+	public Employee(String firstName, String lastName, String emailId, User firm) {
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.emailId = emailId;
+		this.firm = firm;
 	}
 
-	@Override
-	public String toString() {
-		return "Employee [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", emailId=" + emailId
-				+ "]";
-	}
-	
 }
