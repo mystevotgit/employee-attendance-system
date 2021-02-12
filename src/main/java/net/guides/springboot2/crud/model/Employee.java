@@ -9,11 +9,12 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "employees")
-@Setter @Getter @NoArgsConstructor @ToString
+@Data
 public class Employee {
 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private @Id @Setter(AccessLevel.PROTECTED) long id;
+	private @Id
+	@Setter(AccessLevel.PROTECTED) long id;
 	@Column(name = "first_name", nullable = false)
 	private String firstName;
 	@Column(name = "last_name", nullable = false)
