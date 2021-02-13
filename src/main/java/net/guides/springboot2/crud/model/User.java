@@ -4,11 +4,9 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "firms")
@@ -20,6 +18,12 @@ public class User {
     private String name;
     @Column(name = "email", nullable = false)
     private String emailId;
+
+    @OneToMany(mappedBy = "firm", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Meeting> meetings;
+
+    @OneToMany(mappedBy = "firm", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Employee> employees;
 
     @UpdateTimestamp
     @Column(name = "timestamp", nullable = false)

@@ -6,6 +6,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "employees")
@@ -24,6 +25,9 @@ public class Employee {
 
 	@ManyToOne
 	private User firm;
+
+	@OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Attendance> meetings;
 
 	@UpdateTimestamp
 	@Column(name = "timestamp", nullable = false)
