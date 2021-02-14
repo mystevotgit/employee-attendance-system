@@ -1,26 +1,31 @@
 package net.guides.springboot2.crud.controller;
 
+import net.guides.springboot2.crud.dto.EmployeeDTO;
 import net.guides.springboot2.crud.exception.ResourceNotFoundException;
 import net.guides.springboot2.crud.model.Employee;
+import net.guides.springboot2.crud.model.User;
 import net.guides.springboot2.crud.repository.EmployeeRepository;
+import net.guides.springboot2.crud.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/v1")
 public class EmployeeController {
 	@Autowired
 	private EmployeeRepository employeeRepository;
+	@Autowired
+	private UserRepository userRepository;
 
-	@GetMapping("/employees")
-	public List<Employee> getAllEmployees() {
-		return employeeRepository.findAll();
+	@GetMapping("/employees/{firmId}")
+	public Set<Employee> getAllFirmEmployees(@PathVariable(value = "firmId") Long firmId) {
+		Optional<User> firm = userRepository.findById(firmId);
+		User firmData = firm.get();
+		return firmData.getEmployees();
 	}
 
 	@GetMapping("/employees/{id}")
@@ -32,8 +37,15 @@ public class EmployeeController {
 	}
 
 	@PostMapping("/employees")
-	public Employee createEmployee(@Valid @RequestBody Employee employee) {
-		return employeeRepository.save(employee);
+	public Employee createEmployee(@Valid @RequestBody EmployeeDTO employeeDTO) {
+		Employee employee = new Employee();
+		employee.setEmailId(employeeDTO.getEmailId());
+		employee.setFirstName(employeeDTO.getFirstName());
+		employee.setLastName(employeeDTO.getLastName());
+		User firm =  new User();
+		firm.setId(employeeDTO.getFirmId());
+		employee.setFirm(firm);
+ 		return employeeRepository.save(employee);
 	}
 
 	@PutMapping("/employees/{id}")
