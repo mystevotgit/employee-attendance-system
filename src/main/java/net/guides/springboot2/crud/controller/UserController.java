@@ -25,11 +25,15 @@ public class UserController {
     @Autowired
     private ModelMapper modelMapper;
 
+    private void setModelMappingStrategy() {
+        modelMapper.getConfiguration()
+                .setMatchingStrategy(MatchingStrategies.LOOSE);
+    }
+
     @GetMapping("/firms")
     public List<UserDTO> getAllFirms() {
         List<User> users = userRepository.findAll();
-        modelMapper.getConfiguration()
-                .setMatchingStrategy(MatchingStrategies.LOOSE);
+        setModelMappingStrategy();
         List<UserDTO> userDTOS = users.stream()
                 .map(user -> modelMapper.map(user, UserDTO.class))
                 .collect(Collectors.toList());
@@ -41,8 +45,7 @@ public class UserController {
             throws ResourceNotFoundException {
         User firm = userRepository.findById(firmId)
                 .orElseThrow(() -> new ResourceNotFoundException("Firm not found for this id :: " + firmId));
-        modelMapper.getConfiguration()
-                .setMatchingStrategy(MatchingStrategies.LOOSE);
+        setModelMappingStrategy();
         UserDTO userDTO = modelMapper
                 .map(firm, UserDTO.class);
         return ResponseEntity.ok().body(userDTO);
@@ -51,8 +54,7 @@ public class UserController {
     @PostMapping("/firms")
     public UserDTO createFirm(@Valid @RequestBody User firm) {
         User user = userRepository.save(firm);
-        modelMapper.getConfiguration()
-                .setMatchingStrategy(MatchingStrategies.LOOSE);
+        setModelMappingStrategy();
         UserDTO returnObj = modelMapper
                 .map(user, UserDTO.class);
         return returnObj;
@@ -63,8 +65,7 @@ public class UserController {
                                                    @Valid @RequestBody UserDTO firmDetails) throws ResourceNotFoundException {
         User firm = userRepository.findById(firmId)
                 .orElseThrow(() -> new ResourceNotFoundException("Firm not found for this id :: " + firmId));
-        modelMapper.getConfiguration()
-                .setMatchingStrategy(MatchingStrategies.LOOSE);
+        setModelMappingStrategy();
         firm.setEmailId(firmDetails.getEmailId());
         firm.setName(firmDetails.getName());
         final User updatedFirm = userRepository.save(firm);

@@ -26,12 +26,16 @@ public class EmployeeController {
 	@Autowired
 	private ModelMapper modelMapper;
 
+	private void setModelMappingStrategy() {
+		modelMapper.getConfiguration()
+				.setMatchingStrategy(MatchingStrategies.LOOSE);
+	}
+
 	@GetMapping("/employees/{firmId}")
 	public Set<EmployeeDTO> getAllFirmEmployees(@PathVariable(value = "firmId") Long firmId) {
 		Optional<User> firm = userRepository.findById(firmId);
 		User firmData = firm.get();
-		modelMapper.getConfiguration()
-				.setMatchingStrategy(MatchingStrategies.LOOSE);
+		setModelMappingStrategy();
 		return firmData.getEmployees().stream().map(employee -> modelMapper.map(employee, EmployeeDTO.class))
 				.collect(Collectors.toSet());
 	}
@@ -41,8 +45,7 @@ public class EmployeeController {
 			throws ResourceNotFoundException {
 		Employee employee = employeeRepository.findById(employeeId)
 				.orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + employeeId));
-		modelMapper.getConfiguration()
-				.setMatchingStrategy(MatchingStrategies.LOOSE);
+		setModelMappingStrategy();
 		EmployeeDTO employeeDTO = modelMapper
 				.map(employee, EmployeeDTO.class);
 		return ResponseEntity.ok().body(employeeDTO);
@@ -50,8 +53,7 @@ public class EmployeeController {
 
 	@PostMapping("/employees")
 	public EmployeeDTO createEmployee(@Valid @RequestBody EmployeeDTO employeeDTO) {
-		modelMapper.getConfiguration()
-				.setMatchingStrategy(MatchingStrategies.LOOSE);
+		setModelMappingStrategy();
 		Employee employee = new Employee();
 		employee.setEmailId(employeeDTO.getEmailId());
 		employee.setFirstName(employeeDTO.getFirstName());
@@ -67,8 +69,7 @@ public class EmployeeController {
 			@Valid @RequestBody Employee employeeDetails) throws ResourceNotFoundException {
 		Employee employee = employeeRepository.findById(employeeId)
 				.orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + employeeId));
-		modelMapper.getConfiguration()
-				.setMatchingStrategy(MatchingStrategies.LOOSE);
+		setModelMappingStrategy();
 		employee.setEmailId(employeeDetails.getEmailId());
 		employee.setLastName(employeeDetails.getLastName());
 		employee.setFirstName(employeeDetails.getFirstName());
@@ -82,7 +83,6 @@ public class EmployeeController {
 			throws ResourceNotFoundException {
 		Employee employee = employeeRepository.findById(employeeId)
 				.orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + employeeId));
-
 		employeeRepository.delete(employee);
 		Map<String, Boolean> response = new HashMap<>();
 		response.put("deleted", Boolean.TRUE);

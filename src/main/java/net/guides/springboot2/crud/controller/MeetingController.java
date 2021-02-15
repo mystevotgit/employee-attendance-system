@@ -32,12 +32,16 @@ public class MeetingController {
     @Autowired
     private ModelMapper modelMapper;
 
+    private void setModelMappingStrategy() {
+        modelMapper.getConfiguration()
+                .setMatchingStrategy(MatchingStrategies.LOOSE);
+    }
+
     @GetMapping("/meetings/{firmId}")
     public Set<MeetingDTO> getAllFirmMeetings(@PathVariable(value = "firmId") Long firmId) {
         Optional<User> firm = userRepository.findById(firmId);
         User firmData = firm.get();
-        modelMapper.getConfiguration()
-                .setMatchingStrategy(MatchingStrategies.LOOSE);
+        setModelMappingStrategy();
         return firmData.getMeetings().stream().map(meeting -> modelMapper.map(meeting, MeetingDTO.class))
                 .collect(Collectors.toSet());
     }
@@ -47,8 +51,7 @@ public class MeetingController {
             throws ResourceNotFoundException {
         Meeting meeting = meetingRepository.findById(meetingId)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + meetingId));
-        modelMapper.getConfiguration()
-                .setMatchingStrategy(MatchingStrategies.LOOSE);
+        setModelMappingStrategy();
         MeetingDTO meetingDTO = modelMapper
                 .map(meeting, MeetingDTO.class);
         return ResponseEntity.ok().body(meetingDTO);
@@ -56,8 +59,7 @@ public class MeetingController {
 
     @PostMapping("/meetings")
     public MeetingDTO createMeeting(@Valid @RequestBody MeetingDTO meetingDTO) {
-        modelMapper.getConfiguration()
-                .setMatchingStrategy(MatchingStrategies.LOOSE);
+        setModelMappingStrategy();
         Meeting meeting = new Meeting();
         meeting.setTitle(meetingDTO.getTitle());
         meeting.setAgenda(meetingDTO.getAgenda());
@@ -73,8 +75,7 @@ public class MeetingController {
                                                       @Valid @RequestBody MeetingDTO meetingDetails) throws ResourceNotFoundException {
         Meeting meeting = meetingRepository.findById(meetingId)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + meetingId));
-        modelMapper.getConfiguration()
-                .setMatchingStrategy(MatchingStrategies.LOOSE);
+        setModelMappingStrategy();
         meeting.setTitle(meetingDetails.getTitle());
         meeting.setAgenda(meetingDetails.getAgenda());
         meeting.setMeetingTime(meetingDetails.getMeetingTime());
