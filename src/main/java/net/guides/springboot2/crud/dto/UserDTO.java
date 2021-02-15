@@ -15,8 +15,8 @@ public class UserDTO {
     private long id;
     private String name;
     private String emailId;
-    private Set<Meeting> meetings;
-    private Set<Employee> employees;
+    private Set<MeetingDTO> meetings;
+    private Set<EmployeeDTO> employees;
     private LocalDateTime timeStamp;
     private LocalDateTime created;
 }

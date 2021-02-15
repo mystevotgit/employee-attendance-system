@@ -3,8 +3,6 @@ package net.guides.springboot2.crud.dto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.guides.springboot2.crud.model.Attendance;
-import net.guides.springboot2.crud.model.Employee;
-import net.guides.springboot2.crud.model.Meeting;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;

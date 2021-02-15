@@ -31,7 +31,7 @@ public class Meeting {
     private Set<Attendance> attendance;
 
     @Column(name = "meeting_time", nullable = false)
-    private LocalDateTime meetingTime;
+    private String meetingTime;
     @UpdateTimestamp
     @Column(name = "timestamp", nullable = false)
     private @Setter(AccessLevel.PROTECTED) LocalDateTime timeStamp;
@@ -39,7 +39,7 @@ public class Meeting {
     @Column(name = "created", nullable = false)
     private @Setter(AccessLevel.PROTECTED) LocalDateTime created;
 
-    public Meeting(String title, String agenda, User firm, LocalDateTime meetingTime) {
+    public Meeting(String title, String agenda, User firm, String meetingTime) {
         this.title = title;
         this.agenda = agenda;
         this.firm = firm;

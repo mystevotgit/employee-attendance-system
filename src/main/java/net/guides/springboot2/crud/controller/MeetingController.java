@@ -16,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -64,5 +66,32 @@ public class MeetingController {
         Meeting meeting1 = meetingRepository.save(meeting);
         MeetingDTO meetingDTO1 = modelMapper.map(meeting1, MeetingDTO.class);
         return meetingDTO1;
+    }
+
+    @PutMapping("/meetings/{id}")
+    public ResponseEntity<MeetingDTO> updateMeeting(@PathVariable(value = "id") Long meetingId,
+                                                      @Valid @RequestBody MeetingDTO meetingDetails) throws ResourceNotFoundException {
+        Meeting meeting = meetingRepository.findById(meetingId)
+                .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + meetingId));
+        modelMapper.getConfiguration()
+                .setMatchingStrategy(MatchingStrategies.LOOSE);
+        meeting.setTitle(meetingDetails.getTitle());
+        meeting.setAgenda(meetingDetails.getAgenda());
+        meeting.setMeetingTime(meetingDetails.getMeetingTime());
+        final Meeting updatedMeeting = meetingRepository.save(meeting);
+        MeetingDTO meetingDTO = modelMapper.map(updatedMeeting, MeetingDTO.class);
+        return ResponseEntity.ok(meetingDTO);
+    }
+
+    @DeleteMapping("/meetings/{id}")
+    public Map<String, Boolean> deleteEmployee(@PathVariable(value = "id") Long meetingId)
+            throws ResourceNotFoundException {
+        Meeting meeting = meetingRepository.findById(meetingId)
+                .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + meetingId));
+
+        meetingRepository.delete(meeting);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("deleted", Boolean.TRUE);
+        return response;
     }
 }
