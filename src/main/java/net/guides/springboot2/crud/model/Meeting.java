@@ -25,9 +25,11 @@ public class Meeting {
     private String agenda;
 
     @ManyToOne
+    @JsonIgnore
     private User firm;
 
     @OneToMany(mappedBy = "meeting", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Attendance> attendance;
 
     @Column(name = "meeting_time", nullable = false)

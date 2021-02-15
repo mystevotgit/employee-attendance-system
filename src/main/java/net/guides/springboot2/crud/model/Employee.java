@@ -27,6 +27,7 @@ public class Employee {
 	private String emailId;
 
 	@ManyToOne
+	@JsonIgnore
 	private User firm;
 
 	@OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

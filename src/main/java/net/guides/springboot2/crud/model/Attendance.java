@@ -1,5 +1,6 @@
 package net.guides.springboot2.crud.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -18,9 +19,11 @@ public class Attendance {
     @Setter(AccessLevel.PROTECTED) long id;
 
     @ManyToOne
+    @JsonIgnore
     private Meeting meeting;
 
     @ManyToOne
+    @JsonIgnore
     private Employee employee;
 
     @Column(name = "attendance", nullable = false)
