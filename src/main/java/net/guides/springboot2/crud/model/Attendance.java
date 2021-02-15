@@ -1,9 +1,6 @@
 package net.guides.springboot2.crud.model;
 
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -12,7 +9,9 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "attendance")
-@Data @NoArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
 public class Attendance {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private @Id

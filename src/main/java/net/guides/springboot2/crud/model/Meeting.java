@@ -1,9 +1,7 @@
 package net.guides.springboot2.crud.model;
 
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -13,7 +11,9 @@ import java.util.Set;
 
 @Entity
 @Table(name = "meetings")
-@Data @NoArgsConstructor
+@Setter
+@Getter
+@NoArgsConstructor
 public class Meeting {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)

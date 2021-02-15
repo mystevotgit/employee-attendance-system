@@ -1,5 +1,6 @@
 package net.guides.springboot2.crud.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -11,8 +12,11 @@ import java.util.Set;
 
 @Entity
 @Table(name = "firms")
-@Data @NoArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
 public class User {
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private @Id long id;
     @Column(name = "firm_name", nullable = false)
@@ -23,9 +27,11 @@ public class User {
     private String password;
 
     @OneToMany(mappedBy = "firm", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Meeting> meetings;
 
     @OneToMany(mappedBy = "firm", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Employee> employees;
 
     @UpdateTimestamp
@@ -43,4 +49,5 @@ public class User {
         this.meetings = new HashSet<>();
         this.employees = new HashSet<>();
     }
+
 }
