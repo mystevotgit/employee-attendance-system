@@ -19,14 +19,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private ModelMapper modelMapper;
-
-    private void setModelMappingStrategy() {
-        modelMapper.getConfiguration()
-                .setMatchingStrategy(MatchingStrategies.LOOSE);
-    }
-
     @GetMapping("/firms")
     public List<UserDTO> getAllFirms() {
         return userService.getAllFirms();
