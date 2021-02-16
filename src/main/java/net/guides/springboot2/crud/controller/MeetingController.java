@@ -50,7 +50,7 @@ public class MeetingController {
     public ResponseEntity<MeetingDTO> getMeetingById(@PathVariable(value = "id") Long meetingId)
             throws ResourceNotFoundException {
         Meeting meeting = meetingRepository.findById(meetingId)
-                .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + meetingId));
+                .orElseThrow(() -> new ResourceNotFoundException("Meeting not found for this id :: " + meetingId));
         setModelMappingStrategy();
         MeetingDTO meetingDTO = modelMapper
                 .map(meeting, MeetingDTO.class);
@@ -74,7 +74,7 @@ public class MeetingController {
     public ResponseEntity<MeetingDTO> updateMeeting(@PathVariable(value = "id") Long meetingId,
                                                       @Valid @RequestBody MeetingDTO meetingDetails) throws ResourceNotFoundException {
         Meeting meeting = meetingRepository.findById(meetingId)
-                .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + meetingId));
+                .orElseThrow(() -> new ResourceNotFoundException("Meeting not found for this id :: " + meetingId));
         setModelMappingStrategy();
         meeting.setTitle(meetingDetails.getTitle());
         meeting.setAgenda(meetingDetails.getAgenda());
@@ -85,10 +85,10 @@ public class MeetingController {
     }
 
     @DeleteMapping("/meetings/{id}")
-    public Map<String, Boolean> deleteEmployee(@PathVariable(value = "id") Long meetingId)
+    public Map<String, Boolean> deleteMeeting(@PathVariable(value = "id") Long meetingId)
             throws ResourceNotFoundException {
         Meeting meeting = meetingRepository.findById(meetingId)
-                .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + meetingId));
+                .orElseThrow(() -> new ResourceNotFoundException("Meeting not found for this id :: " + meetingId));
 
         meetingRepository.delete(meeting);
         Map<String, Boolean> response = new HashMap<>();

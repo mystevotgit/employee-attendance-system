@@ -1,9 +1,7 @@
 package net.guides.springboot2.crud.controller;
 
-import net.guides.springboot2.crud.dto.MeetingDTO;
 import net.guides.springboot2.crud.dto.UserDTO;
 import net.guides.springboot2.crud.exception.ResourceNotFoundException;
-import net.guides.springboot2.crud.model.Meeting;
 import net.guides.springboot2.crud.model.User;
 import net.guides.springboot2.crud.repository.UserRepository;
 import org.modelmapper.ModelMapper;

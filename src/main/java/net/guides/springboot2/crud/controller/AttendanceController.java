@@ -1,10 +1,8 @@
 package net.guides.springboot2.crud.controller;
 
 import net.guides.springboot2.crud.dto.AttendanceDTO;
-import net.guides.springboot2.crud.dto.MeetingDTO;
 import net.guides.springboot2.crud.exception.ResourceNotFoundException;
 import net.guides.springboot2.crud.model.Attendance;
-import net.guides.springboot2.crud.model.Meeting;
 import net.guides.springboot2.crud.repository.AttendanceRepository;
 import net.guides.springboot2.crud.repository.EmployeeRepository;
 import net.guides.springboot2.crud.repository.MeetingRepository;
